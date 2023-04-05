@@ -12,44 +12,21 @@ public static class Menu
 
         //DisplayDrinkCategoriesAsync();
         var categories = GetCategoriesAsync();
+        int id = 1;
+
+        foreach (var category in categories)
+        {
+            category.id = id;
+            id++;
+        }
 
         ConsoleTableBuilder
             .From(categories.ToList())
-            .WithColumn("CATEGORIES:")
+            .WithColumn("CATEGORIES:", "ID")
             .ExportAndWriteLine();
 
-        Console.WriteLine("\nChoose the category of your drink:\n");
-
-        //string choice = Console.ReadLine().Trim().ToLower();
-
-        /*switch (choice){
-            case root.
-            case "ordinarydrink":
-                break;
-            case "cocktail":
-                break;
-            case "shake":
-                break;
-            case "other/unknown":
-                break;
-            case "cocoa":
-                break;
-            case "shot":
-                break;
-            case "coffee/tea":
-                break;
-            case "homemadeliqueur":
-                break;
-            case "punch/partydrink":
-                break;
-            case "beer":
-                break;
-            case "softdrink":
-                break;
-            default: 
-                DisplayError("Invalid Input");
-                break;
-        } */
+        Console.WriteLine("\nEnter the ID of the category of your drink:\n");
+        int choice = Console.ReadLine(); //replace by data validation method for category ids
     }
 
     private static void Drinks(int category) // Replace int with Drink.Category object
