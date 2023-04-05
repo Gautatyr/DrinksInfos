@@ -1,7 +1,6 @@
 ﻿using static DrinksInfos.Helpers;
-using static DrinksInfos.APIManager;
-using DrinksInfos.Models;
 using ConsoleTableExt;
+using static DrinksInfos.DataValidation;
 
 namespace DrinksInfos;
 
@@ -10,23 +9,15 @@ public static class Menu
     {
         Console.WriteLine(message);
 
-        //DisplayDrinkCategoriesAsync();
-        var categories = GetCategoriesAsync();
-        int id = 1;
-
-        foreach (var category in categories)
-        {
-            category.id = id;
-            id++;
-        }
+        var categories = GetSequencedCategoriesList();
 
         ConsoleTableBuilder
             .From(categories.ToList())
             .WithColumn("CATEGORIES:", "ID")
             .ExportAndWriteLine();
 
-        Console.WriteLine("\nEnter the ID of the category of your drink:\n");
-        int choice = Console.ReadLine(); //replace by data validation method for category ids
+        int choice = DataValidation.GetCategoryIdInput("\nEnter the ID of the category of your drink:\n");
+   
     }
 
     private static void Drinks(int category) // Replace int with Drink.Category object
