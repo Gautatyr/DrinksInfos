@@ -16,16 +16,27 @@ public static class Menu
             .WithColumn("CATEGORIES:", "ID")
             .ExportAndWriteLine();
 
-        int choice = DataValidation.GetCategoryIdInput("\nEnter the ID of the category of your drink:\n");
-   
+        int choice = GetCategoryIdInput("\nEnter the ID of the category of your drink:\n");
+
+        Categories chosenCategory = null;
+
+        foreach(Categories category in categories)
+        {
+            if (category.id == choice) chosenCategory = category;
+        }
+
+        DrinksMenu(chosenCategory);
     }
 
-    private static void Drinks(int category) // Replace int with Drink.Category object
+    private static void DrinksMenu(Categories category) 
     {
+        Console.WriteLine($"gg wp {category.CategoryName}{category.id}");
+        Console.ReadLine();
         // Display all the drinks with the proper category
+
     }
 
-    private static void DrinkDetails(string drinkName) // replace with drink.name object
+    private static void DrinkDetailsMenu(string drinkName) // replace with drink.name object
     {
         // Display all the infos on the drink using object method from class
     }

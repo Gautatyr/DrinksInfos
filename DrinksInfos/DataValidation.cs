@@ -16,8 +16,14 @@ public static class DataValidation
 
             foreach (var category in categories)
             {
-                if (category.id == idInput) idIsValid = true;
+                if (category.id == idInput)
+                {
+                    idIsValid = true;
+                    return idInput;
+                }
             }
+
+            DisplayError($"{idInput} is not a valid id");
         }
 
         return idInput;
@@ -31,7 +37,7 @@ public static class DataValidation
 
         while (!int.TryParse(input, out _))
         {
-            DisplayError($"{input} is not a valid id");
+            DisplayError($"{input} is not a number");
             Console.WriteLine(message);
 
             input = Console.ReadLine();
