@@ -29,6 +29,31 @@ public static class DataValidation
         return idInput;
     }
 
+    public static int GetDrinkIdInput(string categoryName, string message = "")
+    {
+        bool idIsValid = false;
+        int idInput = 0;
+        var drinks = GetSequencedDrinkList(categoryName);
+
+        while (idIsValid == false)
+        {
+            idInput = GetNumberInput(message);
+
+            foreach (var drink in drinks)
+            {
+                if (int.Parse(drink.Id) == idInput)
+                {
+                    idIsValid = true;
+                    return idInput;
+                }
+            }
+
+            DisplayError($"{idInput} is not a valid id");
+        }
+
+        return idInput;
+    }
+
     public static int GetNumberInput(string message = "")
     {
         Console.WriteLine(message);

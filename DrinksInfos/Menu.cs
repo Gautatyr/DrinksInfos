@@ -1,6 +1,7 @@
 ﻿using static DrinksInfos.Helpers;
 using ConsoleTableExt;
 using static DrinksInfos.DataValidation;
+using static DrinksInfos.APIManager;
 
 namespace DrinksInfos;
 
@@ -28,16 +29,52 @@ public static class Menu
         DrinksMenu(chosenCategory);
     }
 
-    private static void DrinksMenu(Categories category) 
+    private static async void DrinksMenu(Categories category) 
     {
-        Console.WriteLine($"gg wp {category.CategoryName}{category.id}");
-        Console.ReadLine();
-        // Display all the drinks with the proper category
+        Console.Clear();
 
+        Console.WriteLine($"\n{category.CategoryName.ToUpper()}\n");
+
+        var drinks = GetSequencedDrinkList(category.CategoryName);
+
+        ConsoleTableBuilder
+            .From(drinks.ToList())
+            .ExportAndWriteLine();
+
+        Console.WriteLine($"\nType the id of the drink of your choice\n");
+
+        int choice = GetDrinkIdInput(category.CategoryName);
+
+        Drink chosenDrink = null;
+
+        foreach (Drink drink in drinks)
+        {
+            if (int.Parse(drink.Id) == choice) chosenDrink = drink;
+        }
+
+        DrinkDetailsMenu(chosenDrink);
     }
 
-    private static void DrinkDetailsMenu(string drinkName) // replace with drink.name object
+    private static void DrinkDetailsMenu(Drink drink) 
     {
-        // Display all the infos on the drink using object method from class
+        Console.Clear();
+
+        var drinkInfos = GetDrinkInfoAsync(drink.DrinkName);
+
+        Console.WriteLine($"\nMAIN INFORMATIONS:\n");
+        ConsoleTableBuilder
+            .From(drinkInfos[0].MainInfos())
+            .ExportAndWriteLine();
+
+        Console.WriteLine($"\nINSTRUCTIONS:\n");
+        Console.WriteLine($"\n{drinkInfos[0].GetInstructions()}\n");
+
+        Console.WriteLine($"\nINGREDIENTS:\n");
+        ConsoleTableBuilder
+            .From(drinkInfos[0].GetIngredients())
+            .ExportAndWriteLine();
+
+        Console.WriteLine($"\nPress enter to go back.\n");
+        Console.ReadLine();
     }
 }

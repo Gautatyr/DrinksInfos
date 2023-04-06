@@ -1,4 +1,5 @@
-﻿using static DrinksInfos.APIManager;
+﻿using System.Reflection.Metadata;
+using static DrinksInfos.APIManager;
 
 namespace DrinksInfos;
 
@@ -21,5 +22,19 @@ public static class Helpers
         }
 
         return categories;
+    }
+
+    public static Drink[] GetSequencedDrinkList(string categoryName)
+    {
+        var drinks = GetDrinksAsync(categoryName);
+        int id = 1;
+
+        foreach (var drink in drinks)
+        {
+            drink.Id = id.ToString();
+            id++;
+        }
+
+        return drinks;
     }
 }
