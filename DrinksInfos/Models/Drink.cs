@@ -1,5 +1,4 @@
-﻿
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 public record class DrinkRoot(
     [property: JsonPropertyName("drinks")] Drink[] drinks);

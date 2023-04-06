@@ -1,9 +1,7 @@
-﻿using System.Security.Cryptography.X509Certificates;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 public record class DrinkInfoRoot(
     [property: JsonPropertyName("drinks")] DrinkInfo[] Infos);
-
 
 public record class DrinkInfo(
     [property: JsonPropertyName("strDrink")] string DrinkName,
