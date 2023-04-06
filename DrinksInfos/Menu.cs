@@ -6,8 +6,11 @@ using static DrinksInfos.APIManager;
 namespace DrinksInfos;
 
 public static class Menu
-{   public static void DrinksCategoriesMenu(string message = "")
+{
+    public static void DrinksCategoriesMenu(string message = "")
     {
+        Console.Clear();
+
         Console.WriteLine(message);
 
         var categories = GetSequencedCategoriesList();
@@ -21,7 +24,7 @@ public static class Menu
 
         Categories chosenCategory = null;
 
-        foreach(Categories category in categories)
+        foreach (Categories category in categories)
         {
             if (category.id == choice) chosenCategory = category;
         }
@@ -29,7 +32,7 @@ public static class Menu
         DrinksMenu(chosenCategory);
     }
 
-    private static async void DrinksMenu(Categories category) 
+    private static async void DrinksMenu(Categories category)
     {
         Console.Clear();
 
@@ -41,21 +44,35 @@ public static class Menu
             .From(drinks.ToList())
             .ExportAndWriteLine();
 
-        Console.WriteLine($"\nType the id of the drink of your choice\n");
+        Console.WriteLine($"\nType the id of the drink of your choice, or type 0 to go back.\n");
 
         int choice = GetDrinkIdInput(category.CategoryName);
 
-        Drink chosenDrink = null;
-
-        foreach (Drink drink in drinks)
+        while (choice != 0)
         {
-            if (int.Parse(drink.Id) == choice) chosenDrink = drink;
+            Drink chosenDrink = null;
+
+            foreach (Drink drink in drinks)
+            {
+                if (int.Parse(drink.Id) == choice) chosenDrink = drink;
+            }
+
+            DrinkDetailsMenu(chosenDrink);
+
+            Console.Clear();
+
+            ConsoleTableBuilder
+                .From(drinks.ToList())
+                .ExportAndWriteLine();
+
+            Console.WriteLine($"\nType the id of the drink of your choice, or type 0 to go back.\n");
+            choice = GetDrinkIdInput(category.CategoryName);
         }
 
-        DrinkDetailsMenu(chosenDrink);
+        DrinksCategoriesMenu();
     }
 
-    private static void DrinkDetailsMenu(Drink drink) 
+    private static void DrinkDetailsMenu(Drink drink)
     {
         Console.Clear();
 

@@ -9,7 +9,7 @@ public static class DataValidation
         bool idIsValid = false;
         int idInput = 0;
         var categories = GetSequencedCategoriesList();
-     
+
         while (idIsValid == false)
         {
             idInput = GetNumberInput(message);
@@ -32,12 +32,13 @@ public static class DataValidation
     public static int GetDrinkIdInput(string categoryName, string message = "")
     {
         bool idIsValid = false;
-        int idInput = 0;
         var drinks = GetSequencedDrinkList(categoryName);
 
         while (idIsValid == false)
         {
-            idInput = GetNumberInput(message);
+            int idInput = GetNumberInput(message);
+
+            if (idInput == 0) return idInput;
 
             foreach (var drink in drinks)
             {
@@ -50,8 +51,7 @@ public static class DataValidation
 
             DisplayError($"{idInput} is not a valid id");
         }
-
-        return idInput;
+        return 0;
     }
 
     public static int GetNumberInput(string message = "")
